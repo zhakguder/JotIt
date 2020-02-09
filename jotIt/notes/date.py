@@ -1,49 +1,19 @@
 import abc
+from abc import ABC
 import datetime
 import warnings
-
-# TODO: need a date legality checker
-
-
-class DateFactory:
-    @staticmethod
-    def factory(year=None, month=None, day=None):
-        if not year:
-            year = datetime.datetime.now().year
-            # TODO: do I want to use something else instead of warnings
-            warnings.warn(f"You didn't specify the year. Using {year}")
-            return DateWithYear(year)
-        if month and day:
-            return DateWithYearMonthDay(year, month, day)
-        elif month:
-            return DateWithYearMonth(year, month)
-        else:
-            return DateWithYear(year)
+from jotIt.notes.constants import *
 
 
-class Date(metaclass=abc.ABCMeta):
+class DateEntry:
+    def __init__(self, year=0, month=0, day=0):
+        self._year = year if year else TODAY.year
+        self._month = month if month else TODAY.month
+        self._day = day if day else TODAY.day
+        Date.is_valid(self.getYear(), self.getMonth(), self.getDay())
+
     def getYear(self):
         return self._year
-
-    @abc.abstractmethod
-    def getMonth(self):
-        return
-
-    @abc.abstractmethod
-    def getDay(self):
-        return
-
-    def getDate(self):
-        return datetime.date(self.getYear(), self.getMonth(), self.getDay()).strftime(
-            "%b %d %Y"
-        )
-
-
-class DateWithYearMonthDay(Date):
-    def __init__(self, year, month, day):
-        self._year = year
-        self._month = month
-        self._day = day
 
     def getMonth(self):
         return self._month
@@ -51,25 +21,21 @@ class DateWithYearMonthDay(Date):
     def getDay(self):
         return self._day
 
-
-class DateWithYearMonth(Date):
-    def __init__(self, year, month):
-        self._year = year
-        self._month = month
-
-    def getMonth(self):
-        return self._month
-
-    def getDay(self):
-        return 1
+    def getDate(self):
+        return datetime.date(self.getYear(), self.getMonth(), self.getDay()).strftime(
+            "%b %d %Y"
+        )
 
 
-class DateWithYear(Date):
-    def __init__(self, year):
-        self._year = year
-
-    def getMonth(self):
-        return 1
-
-    def getDay(self):
-        return 1
+class Date(ABC):
+    @staticmethod
+    def is_valid(year, month, day):
+        try:
+            datetime.datetime(year=year, month=month, day=day)
+        # TODO how to better handle these warnings?
+        except ValueError as e:
+            warnings.warn("Please enter a valid date.")
+            return False
+        except TypeError as e:
+            warnings.warn("Please enter only integers.")
+        return True
