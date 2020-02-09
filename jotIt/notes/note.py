@@ -1,12 +1,14 @@
-from jotIt.notes.date import DateFactory
+from jotIt.notes.date import DateEntry
+from jotIt.notes.tag import Tag
 
 
 class NoteEntry:
-    def __init__(self, date, message):
-        # TODO: what is the format of date? (Y, M, D)
+    def __init__(self, date, message, tags):
+        # TODO: what is the format of date? (Y, M, D).
         # TODO: what is the format of message? (title, body)
-        self._date = DateFactory.factory(*date)
+        self._date = DateEntry(*date)
         self._note = Note(*message)
+        self._tags = Tag(*tags)
 
     def get_entry_time(self):
         return self.date.getDate()
@@ -18,6 +20,10 @@ class NoteEntry:
     def filter_contains_text(self, text):
         # TODO
         pass
+
+    def filter_contains_tag(self, tag):
+        # TODO
+        # self.getTag().filter_contains(tag)
 
 
 class Note:

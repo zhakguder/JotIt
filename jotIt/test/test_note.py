@@ -12,7 +12,7 @@ class TestNote(TestCase):
     def test_note_entry(self):
         date = (YEAR, MONTH, DAY)
         message = (BODY, TITLE)
-        note_entry = NoteEntry(date, message)
+        note_entry = NoteEntry(date, message, TAGS)
 
 
 if __name__ == "__main__":
