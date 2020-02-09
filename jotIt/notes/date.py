@@ -2,6 +2,8 @@ import abc
 import datetime
 import warnings
 
+# TODO: need a date legality checker
+
 
 class DateFactory:
     @staticmethod
@@ -30,6 +32,11 @@ class Date(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def getDay(self):
         return
+
+    def getDate(self):
+        return datetime.date(self.getYear(), self.getMonth(), self.getDay()).strftime(
+            "%b %d %Y"
+        )
 
 
 class DateWithYearMonthDay(Date):

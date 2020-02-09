@@ -1,10 +1,8 @@
+import datetime
+import warnings
 from unittest import TestCase, mock
 from jotIt import DateFactory
-import warnings
-
-YEAR = 2010
-MONTH = 3
-DAY = 12
+from jotIt.test.constants import *
 
 
 class TestDate(TestCase):
@@ -30,6 +28,13 @@ class TestDate(TestCase):
         with warnings.catch_warnings(record=True) as wl:
             year = nothing_given.getYear()
         self.assertEqual(year, 2020)
+
+    def get_date(self):
+        year_month_day = DateFactory.factory(YEAR, MONTH, DAY)
+        self.assertEqual(
+            year_month_day.getDate(),
+            datetime.date(YEAR, MONTH, DAY).strftime(DATE_FORMAT),
+        )
 
 
 if __name__ == "__main__":
