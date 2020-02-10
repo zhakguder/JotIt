@@ -19,3 +19,12 @@ class TagGroup:
 
     def add_tags(self, tags):
         self._tags.extend(tags)
+
+    def __iter__(self):
+        return self.getTags().__iter__()
+
+    def __str__(self):
+        str_ = ""
+        for tag in self:
+            str_ += tag
+        return str_

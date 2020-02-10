@@ -33,9 +33,16 @@ class DateEntry:
         # TODO: need to ask to get date again if invalid
         low_date = Date.make_date(*low_date) if Date.is_valid(*low_date) else None
         high_date = Date.make_date(*high_date) if Date.is_valid(*high_date) else None
-        return Date.is_after(self.date, low_date) and Date.is_before(
-            self.date, high_date
-        )
+        return self.date > low_date and self.date <= high_date
+
+    def __le__(self, other):
+        return Date.is_before(self.date, other.date)
+
+    def __gt__(self, other):
+        return Date.is_after(self.date, other.date)
+
+    def __str__(self):
+        return self.getDate()
 
 
 class Date(ABC):
@@ -62,4 +69,4 @@ class Date(ABC):
 
     @staticmethod
     def is_after(date, otherdate):
-        return date >= otherdate
+        return date > otherdate

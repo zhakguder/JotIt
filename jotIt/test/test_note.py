@@ -1,5 +1,5 @@
 from unittest import TestCase
-from jotIt import NoteEntry, Note
+from jotIt import NoteEntry, Note, NoteEntries
 from jotIt.test.constants import *
 
 YEAR = CURR_DATE["year"]
@@ -43,6 +43,22 @@ class TestNoteEntry(TestCase):
         self.assertFalse(
             self.note_entry.date_in_range(HIGH_DATE.values(), LOW_DATE.values())
         )
+
+
+class TestNoteEntries(TestCase):
+    def setUp(self):
+        ent1 = NoteEntry([2010, 1, 2], ["hello", "b"], "c")
+        ent2 = NoteEntry([2009, 2, 4], ["yello", "a"], "c")
+        ent3 = NoteEntry([2009, 1, 2], ["hello", "b"], "c")
+        self.entries = NoteEntries()
+        self.entries.add_note(ent1)
+        self.entries.add_note(ent2)
+        self.entries.add_note(ent3)
+
+    def test_sort_entries(self):
+        al = self.entries.sort_entries()
+        sorted_titles = [entry.get_title() for entry in al]
+        self.assertEqual(sorted_titles, ["a", "b", "b"])
 
 
 if __name__ == "__main__":
