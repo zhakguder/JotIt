@@ -10,7 +10,8 @@ class DateEntry:
         self._year = year if year else TODAY.year
         self._month = month if month else TODAY.month
         self._day = day if day else TODAY.day
-        Date.is_valid(self.getYear(), self.getMonth(), self.getDay())
+        if Date.is_valid(self.getYear(), self.getMonth(), self.getDay()):
+            self.date = Date.make_date(self.getYear(), self.getMonth(), self.getDay())
 
     def getYear(self):
         return self._year
@@ -26,8 +27,22 @@ class DateEntry:
             "%b %d %Y"
         )
 
+    def is_in_range(self, low_date, high_date):
+        # low date and high date should be lists in format [Y, M, D]
+
+        # TODO: need to ask to get date again if invalid
+        low_date = Date.make_date(*low_date) if Date.is_valid(*low_date) else None
+        high_date = Date.make_date(*high_date) if Date.is_valid(*high_date) else None
+        return Date.is_after(self.date, low_date) and Date.is_before(
+            self.date, high_date
+        )
+
 
 class Date(ABC):
+    @staticmethod
+    def make_date(year, month, day):
+        return datetime.date(year, month, day)
+
     @staticmethod
     def is_valid(year, month, day):
         try:
@@ -38,4 +53,13 @@ class Date(ABC):
             return False
         except TypeError as e:
             warnings.warn("Please enter only integers.")
+            return False
         return True
+
+    @staticmethod
+    def is_before(date, otherdate):
+        return date <= otherdate
+
+    @staticmethod
+    def is_after(date, otherdate):
+        return date >= otherdate
