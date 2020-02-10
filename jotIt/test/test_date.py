@@ -18,30 +18,30 @@ class TestDate(TestCase):
 
     def test_year_month_day(self):
         year_month_day = DateEntry(YEAR, MONTH, DAY)
-        self.assertEqual(year_month_day.getYear(), YEAR)
-        self.assertEqual(year_month_day.getMonth(), MONTH)
-        self.assertEqual(year_month_day.getDay(), DAY)
+        self.assertEqual(year_month_day.get_year(), YEAR)
+        self.assertEqual(year_month_day.get_month(), MONTH)
+        self.assertEqual(year_month_day.get_day(), DAY)
 
     def test_year_month(self):
         year_month = DateEntry(YEAR, MONTH)
-        self.assertEqual(year_month.getYear(), YEAR)
-        self.assertEqual(year_month.getMonth(), MONTH)
+        self.assertEqual(year_month.get_year(), YEAR)
+        self.assertEqual(year_month.get_month(), MONTH)
 
     def test_year(self):
         year = DateEntry(YEAR)
-        self.assertEqual(year.getYear(), YEAR)
+        self.assertEqual(year.get_year(), YEAR)
 
     def test_year(self):
         nothing_given = DateEntry()
         # TODO how to catch warning message
         with warnings.catch_warnings(record=True) as wl:
-            year = nothing_given.getYear()
+            year = nothing_given.get_year()
         self.assertEqual(year, 2020)
 
     def test_get_date(self):
         year_month_day = DateEntry(YEAR, MONTH, DAY)
         self.assertEqual(
-            year_month_day.getDate(),
+            year_month_day.get_date(),
             datetime.date(YEAR, MONTH, DAY).strftime(DATE_FORMAT),
         )
 

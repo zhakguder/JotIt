@@ -10,22 +10,20 @@ class DateEntry:
         self._year = year if year else TODAY.year
         self._month = month if month else TODAY.month
         self._day = day if day else TODAY.day
-        if Date.is_valid(self.getYear(), self.getMonth(), self.getDay()):
-            self.date = Date.make_date(self.getYear(), self.getMonth(), self.getDay())
+        if Date.is_valid(self._year, self._month, self._day):
+            self.date = Date.make_date(self._year, self._month, self._day)
 
-    def getYear(self):
+    def get_year(self):
         return self._year
 
-    def getMonth(self):
+    def get_month(self):
         return self._month
 
-    def getDay(self):
+    def get_day(self):
         return self._day
 
-    def getDate(self):
-        return datetime.date(self.getYear(), self.getMonth(), self.getDay()).strftime(
-            "%b %d %Y"
-        )
+    def get_date(self):
+        return datetime.date(self._year, self._month, self._day).strftime("%b %d %Y")
 
     def is_in_range(self, low_date, high_date):
         # low date and high date should be lists in format [Y, M, D]
@@ -33,6 +31,7 @@ class DateEntry:
         # TODO: need to ask to get date again if invalid
         low_date = Date.make_date(*low_date) if Date.is_valid(*low_date) else None
         high_date = Date.make_date(*high_date) if Date.is_valid(*high_date) else None
+        # TODO: raise exception here??
         return self.date > low_date and self.date <= high_date
 
     def __le__(self, other):
@@ -42,7 +41,7 @@ class DateEntry:
         return Date.is_after(self.date, other.date)
 
     def __str__(self):
-        return self.getDate()
+        return self._date
 
 
 class Date(ABC):

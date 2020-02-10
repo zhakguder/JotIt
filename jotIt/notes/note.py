@@ -8,26 +8,25 @@ class NoteEntries:
         self._entries = []
 
     def add_note(self, note):
-        self.get_entries().append(note)
+        self._entries.append(note)
 
     def get_entries(self):
         return self._entries
 
     def summary(self):
-
         pass
 
     def sort_entries(self):
         # TODO: how to sort properly
         # maybe with Sorter class?
-        return sorted(self.get_entries(), key=operator.attrgetter("_note", "_date"))
+        return sorted(self._entries, key=operator.attrgetter("_note", "_date"))
 
     def __iter__(self):
         return self._entries.__iter__()
 
 
 class Sorter:
-    def sort_entries(self,):
+    def sort_entries(self):
         return sorted()
 
 
@@ -48,9 +47,6 @@ class NoteEntry:
     def get_tags(self):
         return self._tags
 
-    def _get_note(self):
-        return self._note
-
     def get_title(self):
         return self._note.get_title()
 
@@ -59,18 +55,17 @@ class NoteEntry:
 
     def date_in_range(self, low_date, high_date):
         # low date and high date should be lists in format [Y, M, D]
-        # TODO
         return self._date.is_in_range(low_date, high_date)
 
     def contains_text(self, text):
-        return self._get_note().contains(text) or self.get_tags().contains(text)
+        return self._note.contains(text) or self._tags.contains(text)
 
     def contains_tag(self, tag):
         return self.get_tags().contains(tag)
 
     def add_tags(self, tags):
         tags = [].extend(tags)
-        self.get_tags().add_tags(tags)
+        self._tags.add_tags(tags)
 
     def __str__(self):
         str_ = f"{self.get_title()}, on {self.get_entry_time()} "
@@ -91,15 +86,15 @@ class Note:
 
     def contains(self, text):
         # TODO search by regex?
-        return (text.lower() in self.get_title().lower()) or (
-            text.lower() in self.get_body().lower()
+        return (text.lower() in self._title.lower()) or (
+            text.lower() in self._body.lower()
         )
 
     def __le__(self, other):
-        return self.get_title().lower() < other.get_title().lower()
+        return self._title.lower() < other._title.lower()
 
     def __gt__(self, other):
-        return self.get_title().lower() >= other.get_title().lower()
+        return self._title.lower() >= other._title.lower()
 
     def __str__(self):
-        return self.get_title()
+        return self._title
