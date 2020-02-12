@@ -40,10 +40,7 @@ class TestDate(TestCase):
 
     def test_get_date(self):
         year_month_day = DateEntry(YEAR, MONTH, DAY)
-        self.assertEqual(
-            year_month_day.get_date(),
-            datetime.date(YEAR, MONTH, DAY).strftime(DATE_FORMAT),
-        )
+        self.assertEqual(year_month_day.get_date(), datetime.date(YEAR, MONTH, DAY))
 
     def test_make_date(self):
         date = Date.make_date(YEAR, MONTH, DAY)

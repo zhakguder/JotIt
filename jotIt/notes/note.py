@@ -19,7 +19,7 @@ class NoteEntries:
     def sort_entries(self):
         # TODO: how to sort properly
         # maybe with Sorter class?
-        return sorted(self._entries, key=operator.attrgetter("_note", "_date"))
+        return sorted(self._entries, key=operator.attrgetter("note", "date"))
 
     def __iter__(self):
         return self._entries.__iter__()
@@ -37,35 +37,35 @@ class NoteEntry:
     def __init__(self, date, message, tags):
         # TODO: what is the format of date? (Y, M, D).
         # TODO: what is the format of message? (title, body)
-        self._date = DateEntry(*date)
-        self._note = Note(*message)  # TODO refactor to note_text in tests
-        self._tags = TagGroup(tags)
+        self.date = DateEntry(*date)
+        self.note = Note(*message)  # TODO refactor to note_text in tests
+        self.tags = TagGroup(tags)
 
     def get_entry_time(self):
-        return self._date.getDate()
+        return self.date.getDate()
 
     def get_tags(self):
-        return self._tags
+        return self.tags
 
     def get_title(self):
-        return self._note.get_title()
+        return self.note.get_title()
 
     def get_note_body(self):
-        return self._note.get_body()
+        return self.note.get_body()
 
     def date_in_range(self, low_date, high_date):
         # low date and high date should be lists in format [Y, M, D]
-        return self._date.is_in_range(low_date, high_date)
+        return self.date.is_in_range(low_date, high_date)
 
     def contains_text(self, text):
-        return self._note.contains(text) or self._tags.contains(text)
+        return self.note.contains(text) or self.tags.contains(text)
 
     def contains_tag(self, tag):
         return self.get_tags().contains(tag)
 
     def add_tags(self, tags):
         tags = [].extend(tags)
-        self._tags.add_tags(tags)
+        self.tags.add_tags(tags)
 
     def __str__(self):
         str_ = f"{self.get_title()}, on {self.get_entry_time()} "
@@ -75,26 +75,26 @@ class NoteEntry:
 
 class Note:
     def __init__(self, body, title):
-        self._body = body
-        self._title = title
+        self.body = body
+        self.title = title
 
     def get_body(self):
-        return self._body
+        return self.body
 
     def get_title(self):
-        return self._title
+        return self.title
 
     def contains(self, text):
         # TODO search by regex?
-        return (text.lower() in self._title.lower()) or (
-            text.lower() in self._body.lower()
+        return (text.lower() in self.title.lower()) or (
+            text.lower() in self.body.lower()
         )
 
     def __le__(self, other):
-        return self._title.lower() < other._title.lower()
+        return self.title.lower() < other.title.lower()
 
     def __gt__(self, other):
-        return self._title.lower() >= other._title.lower()
+        return self.title.lower() >= other.title.lower()
 
     def __str__(self):
-        return self._title
+        return self.title
