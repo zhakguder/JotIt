@@ -1,20 +1,35 @@
-from marshmallow import Schema, fields
+from marshmallow import Schema, fields, post_load
+from jotIt.notes.note import Note, NoteEntry
+from jotIt.notes.date import DateEntry
+from jotIt.notes.tag import TagGroup
 
 
 class NoteSchema(Schema):
-    _body = fields.Str()
-    _title = fields.Str()
+    body = fields.Str()
+    title = fields.Str()
+
+    @post_load
+    def make_note(self, data, **kwargs):
+        return Note(**data)
 
 
 class DateEntrySchema(Schema):
-    _date = fields.Date()
+    date = fields.Date()
+
+    @post_load
+    def make_date(self, data, **kwargs):
+        return DateEntry(**data)
 
 
 class TagsSchema(Schema):
-    _tags = fields.List(fields.Str())
+    tags = fields.List(fields.Str())
+
+    @post_load
+    def make_tags(self, data, **kwargs):
+        return TagGroup(**data)
 
 
 class NoteEntrySchema(Schema):
-    _date = fields.Nested(DateEntrySchema())
-    _note = fields.Nested(NoteSchema())
-    _tags = fields.Nested(TagsSchema())
+    date = fields.Nested(DateEntrySchema())
+    note = fields.Nested(NoteSchema())
+    tags = fields.Nested(TagsSchema())
