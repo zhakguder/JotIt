@@ -67,6 +67,12 @@ class NoteEntry:
         tags = [].extend(tags)
         self.tags.add_tags(tags)
 
+    def __setitem__(self, key, value):
+        self.__dict__[key] = value
+
+    def __getitem__(self, key):
+        return self.__dict__[key]
+
     def __str__(self):
         str_ = f"{self.get_title()}, on {self.get_entry_time()} "
         str_ += f"with tags {self._tags}"

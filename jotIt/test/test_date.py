@@ -11,39 +11,37 @@ DAY = CURR_DATE["day"]
 
 class TestDate(TestCase):
     def test_invalid_format(self):
-        year_month_day = DateEntry(YEAR, YEAR, "12")
+        date = DateEntry(YEAR, YEAR, "12")
 
     def test_invalid_value(self):
-        year_month_day = DateEntry(YEAR, YEAR, YEAR)
+        date = DateEntry(YEAR, YEAR, YEAR)
 
     def test_year_month_day(self):
-        year_month_day = DateEntry(YEAR, MONTH, DAY)
-        self.assertEqual(year_month_day.get_year(), YEAR)
-        self.assertEqual(year_month_day.get_month(), MONTH)
-        self.assertEqual(year_month_day.get_day(), DAY)
+        date = DateEntry(YEAR, MONTH, DAY)
+        self.assertEqual(date.get_date(), datetime.date(YEAR, MONTH, DAY))
+        self.assertEqual(date.get_year(), YEAR)
+        self.assertEqual(date.get_month(), MONTH)
+        self.assertEqual(date.get_day(), DAY)
 
     def test_year_month(self):
-        year_month = DateEntry(YEAR, MONTH)
-        self.assertEqual(year_month.get_year(), YEAR)
-        self.assertEqual(year_month.get_month(), MONTH)
+        date = DateEntry(YEAR, MONTH)
+        self.assertEqual(date.get_year(), YEAR)
+        self.assertEqual(date.get_month(), MONTH)
 
     def test_year(self):
-        year = DateEntry(YEAR)
+        date = DateEntry(YEAR)
         self.assertEqual(year.get_year(), YEAR)
 
     def test_year(self):
-        nothing_given = DateEntry()
+        date = DateEntry()
         # TODO how to catch warning message
         with warnings.catch_warnings(record=True) as wl:
-            year = nothing_given.get_year()
+            year = date.get_year()
         self.assertEqual(year, 2020)
 
     def test_get_date(self):
         year_month_day = DateEntry(YEAR, MONTH, DAY)
-        self.assertEqual(
-            year_month_day.get_date(),
-            datetime.date(YEAR, MONTH, DAY).strftime(DATE_FORMAT),
-        )
+        self.assertEqual(year_month_day.get_date(), datetime.date(YEAR, MONTH, DAY))
 
     def test_make_date(self):
         date = Date.make_date(YEAR, MONTH, DAY)

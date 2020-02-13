@@ -7,23 +7,24 @@ from jotIt.notes.constants import *
 
 class DateEntry:
     def __init__(self, year=0, month=0, day=0):
-        self._year = year if year else TODAY.year
-        self._month = month if month else TODAY.month
-        self._day = day if day else TODAY.day
-        if Date.is_valid(self._year, self._month, self._day):
-            self.date = Date.make_date(self._year, self._month, self._day)
+        year = year if year else TODAY.year
+        month = month if month else TODAY.month
+        day = day if day else TODAY.day
+        if Date.is_valid(year, month, day):
+            self.date = Date.make_date(year, month, day)
 
     def get_year(self):
-        return self._year
+        return self.date.year
 
     def get_month(self):
-        return self._month
+        return self.date.month
 
     def get_day(self):
-        return self._day
+        return self.date.day
 
     def get_date(self):
-        return datetime.date(self._year, self._month, self._day).strftime("%b %d %Y")
+        # return datetime.date(self._year, self._month, self._day).strftime("%b %d %Y")
+        return self.date
 
     def is_in_range(self, low_date, high_date):
         # low date and high date should be lists in format [Y, M, D]
@@ -41,7 +42,7 @@ class DateEntry:
         return Date.is_after(self.date, other.date)
 
     def __str__(self):
-        return self._date
+        return self.date.strftime("%b %d %Y")
 
 
 class Date(ABC):
