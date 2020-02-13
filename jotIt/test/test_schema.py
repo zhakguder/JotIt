@@ -13,9 +13,6 @@ class TestNoteSchema(TestCase):
         result = note_schema.dump(NOTE)
         self.assertEqual(result, NOTE.__dict__)
         note = note_schema.load(result)
-        import pdb
-
-        pdb.set_trace()
 
     def test_date_schema(self):
         date_schema = DateEntrySchema()
