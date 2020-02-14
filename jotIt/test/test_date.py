@@ -56,6 +56,17 @@ class TestDate(TestCase):
         low_date = Date.make_date(*LOW_DATE.values())
         self.assertTrue(Date.is_after(curr_date, low_date))
 
+    def test_date_object_to_date_str(self):
+        date = DateEntry(YEAR, MONTH, DAY)
+
+        # import pdb
+
+        # pdb.set_trace()
+        date_str = date.get_date().strftime(DATE_FORMAT)
+        print(date_str)
+
+        self.assertEqual(str(date), date_str)
+
 
 if __name__ == "__main__":
     unittest.main()

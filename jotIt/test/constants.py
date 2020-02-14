@@ -22,6 +22,13 @@ DATE_FORMAT = "%b %d %Y"
 # TODO use mocks to get rid of these dependencies in tests
 
 NOTE = Note(BODY, TITLE)
+NOTE_DICT = {
+    "date": {"date": "Oct 02 2010"},
+    "note": {"body": "a", "title": "b"},
+    "tags": {"tags": ["t1", "t2"]},
+    # "note_id": 0,
+    # "_id": ObjectId("5e459738cfc803fad62757d1"),
+}
 NOTE_ENTRY = NoteEntry([2020, 2, 11], [BODY, TITLE], TAGS)
 DATE_ENTRY = DateEntry(*CURR_DATE.values())
 
