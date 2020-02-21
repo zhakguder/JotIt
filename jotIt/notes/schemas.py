@@ -1,7 +1,8 @@
-from marshmallow import Schema, fields, post_load
+from marshmallow import Schema, fields, pre_load, post_load
 from jotIt.notes.note import Note, NoteEntry
 from jotIt.notes.date import DateEntry
 from jotIt.notes.tag import TagGroup
+from jotIt.notes.date import Date
 
 
 class NoteSchema(Schema):
@@ -18,6 +19,8 @@ class DateEntrySchema(Schema):
 
     @post_load
     def make_date(self, data, **kwargs):
+        data = data["date"]
+        data = {"year": data.year, "month": data.month, "day": data.day}
         return DateEntry(**data)
 
 
